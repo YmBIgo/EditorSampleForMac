@@ -12,12 +12,19 @@ var server  = app.listen(3000, function(){
 });
 
 app.get("/", function(req, res, next){
-	var file_result = load_file.read_files("./", 0);
+	var file_result  = load_file.read_files("./", 0);
 	var file_name    = req.query.file_name
 	var file_content = load_file.read_file(file_name);
 	file_content 	 = file_content.replaceAll("\n", "<br>")
 	// console.log(file_result)
 	res.render("index", {all_files: file_result, file_content: file_content});
+});
+
+app.get("/file_content", function(req, res, next){
+	var file_name 	 = req.query.file_name;
+	console.log(file_name);
+	var file_content = load_file.read_file(file_name);
+	res.json({'file_content':file_content});
 });
 
 

@@ -10,18 +10,23 @@
 	<!-- code mirror -->
 	<link rel="stylesheet" href="/public/codemirror.css">
 	<script src="/public/codemirror.js"></script>
+	<script src="/public/editor.js"></script>
 	<script src="/public/modal.js"></script>
+	<script src="/public/file_output.js"></script>
+	<script src="/public/tabs.js"></script>
 </head>
 <body>
-	<div class="container main-page">
+	<div class="container">
 		<h1>New Project</h1>
 		<hr>
-		<div class="row">
-			<div class="col-4">
+		<div class="main-page row">
+			<div class="file_name_section col-4">
 				<div id="file_name_inner">
 				</div>
 			</div>
-			<div class="col-8">
+			<div class="editor_section col-8">
+				<div id="editor_tabs">
+				</div>
 				<div id="editor_inner">
 					<textarea id="editor-textarea">var editor = "test";</textarea>
 				</div>
@@ -31,6 +36,8 @@
 	<div class="modal-content">
 	</div>
 <script>
+	//
+	var tabs = new Tabs([]);
 	// 
 	var all_files_o = "[<%= all_files %>]".replace("[", "").replace("]", "");
 	var all_files_original = all_files_o.split(",");
@@ -51,19 +58,26 @@
 	//	
 	var file_name_area = document.getElementById("file_name_inner");
 	var p_element_inner = "";
-	for(var i = 0; i < all_files.length; i++){
+	var a_element;
+	// for(var i = 0; i < all_files.length; i++){
+	all_files.forEach( function(item) {
+		var each_all_file = item;
 		var li_element  = document.createElement("li");
-		var a_element   = document.createElement("a");
-		a_element_inner =  "　".repeat(all_files[i][0]);
-		a_element_inner += all_files[i][3];
+		a_element   = document.createElement("a");
+		a_element_inner =  "　".repeat(item[0]);
+		a_element_inner += item[3];
 		a_element.textContent = a_element_inner;
-		if ( all_files[i][1] == 0 ){
+		if ( item[1] == 0 ){
 			//
-			a_element.href  = "http://localhost:3000?file_name=" + all_files[i][2];
+			// a_element.href  = "http://localhost:3000?file_name=" + all_files[i][2];
+			// getAjaxFileContent(_file_path_)
+			a_element.onclick = function(){
+				getAjaxFileContent(item[2])
+			}
 		}
 		li_element.appendChild(a_element)
 		file_name_area.appendChild(li_element)
-	}
+	})
 	//
 	var file_content = "<%= file_content -%>";
 	file_content = file_content.replaceAll("&lt;br&gt;", "\n");
@@ -71,12 +85,7 @@
 </script>
 <script>
 	// code mirror
-	var myTextArea = document.getElementById("editor-textarea");
-	var editor = CodeMirror.fromTextArea(document.getElementById("editor-textarea"), {
-		mode: "javascript", 
-		lineNumbers: true,
-	});
-	editor.save();
+	show_editor();
 </script>
 </body>
 </html>
