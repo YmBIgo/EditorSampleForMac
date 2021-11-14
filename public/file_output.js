@@ -5,7 +5,6 @@ function changeFileContent() {
 function getAjaxFileContent(file_name){
 	var file_data = "file_name=" + file_name
 	var file_content = "";
-	console.log(file_data);
 	$.ajax({
 		type: "GET",
 		url: "file_content",

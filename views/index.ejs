@@ -43,13 +43,17 @@
 	var all_files_original = all_files_o.split(",");
 	var all_files = []; var j = 0;
 	for(var i = 0; i < all_files_original.length; i ++ ){
-		j = i % 4;
+		j = i % 6;
 		if ( j == 1 ) {
 			all_files[all_files.length-1][0] = parseInt(all_files_original[i])
 		} else if ( j == 2 ) {
 			all_files[all_files.length-1][1] = parseInt(all_files_original[i])
 		} else if (j == 3){
 			all_files[all_files.length-1][3] = all_files_original[i]
+		} else if (j == 4){
+			all_files[all_files.length-1][4] = parseInt(all_files_original[i])
+		} else if ( j == 5 ) {
+			all_files[all_files.length-1][5] = parseInt(all_files_original[i])
 		} else if ( j == 0 ) {
 			all_files.push([]);
 			all_files[all_files.length-1][2] = all_files_original[i]
@@ -67,12 +71,50 @@
 		a_element_inner =  "　".repeat(item[0]);
 		a_element_inner += item[3];
 		a_element.textContent = a_element_inner;
+		//
+		a_element.setAttribute("file_depth", item[0]);
+		a_element.setAttribute("is_file", item[1]);
+		a_element.setAttribute("file_name", item[3]);
+		a_element.setAttribute("file_count", item[4]);
+		a_element.setAttribute("parent_file", item[5]);
+		if ( item[0] != 0 ){
+			a_element.style.display = "none";
+		}
 		if ( item[1] == 0 ){
 			//
 			// a_element.href  = "http://localhost:3000?file_name=" + all_files[i][2];
 			// getAjaxFileContent(_file_path_)
 			a_element.onclick = function(){
 				getAjaxFileContent(item[2])
+			}
+		} else {
+			a_element.setAttribute("is_open", 0);
+			a_element.onclick = function(){
+				//
+				console.log("is open " + parseInt(a_element.getAttribute("is_open")));
+				var current_file_count = item[4];
+				var file_name_inner = document.getElementById("file_name_inner");
+				var file_names = file_name_inner.getElementsByTagName("a");
+				var file_name_file_count = 0;
+				if ( a_element.getAttribute("is_open") != 1 ){
+					console.log("opening files....");
+					for(var i = 0; i < file_names.length; i++){
+						file_name_file_count = parseInt(file_names[i].getAttribute("parent_file"));
+						if ( file_name_file_count == current_file_count ){
+							file_names[i].style.display = "block";
+						}
+					}
+					a_element.setAttribute("is_open", 1);
+				} else {
+					console.log("closing files....");
+					for(var i = 0; i < file_names.length; i++){
+						file_name_file_count = parseInt(file_names[i].getAttribute("parent_file"));
+						if ( file_name_file_count == current_file_count ){
+							file_names[i].style.display = "none";
+						}
+					}
+					a_element.setAttribute("is_open", 0);
+				}
 			}
 		}
 		li_element.appendChild(a_element)
