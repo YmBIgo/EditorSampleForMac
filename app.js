@@ -13,11 +13,9 @@ var server  = app.listen(3000, function(){
 
 app.get("/", function(req, res, next){
 	var file_result  = load_file.read_files("./", 0, 0);
-	var file_name    = req.query.file_name
-	var file_content = load_file.read_file(file_name);
-	file_content 	 = file_content.replaceAll("\n", "<br>")
+	// var file_name    = req.query.file_name
 	// console.log(file_result)
-	res.render("index", {all_files: file_result, file_content: file_content});
+	res.render("index", {all_files: file_result});
 });
 
 app.get("/file_content", function(req, res, next){
