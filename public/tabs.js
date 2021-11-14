@@ -20,6 +20,23 @@ class Tabs {
 			this.display_tabs();
 		}
 	}
+	remove_tab(file_name){
+		if ( this.tab_array.length == 0 ){
+			return
+		}
+		// indexOf
+		var is_file_exist_in_array = this.tab_array.indexOf(file_name);
+		if ( is_file_exist_in_array != -1 ) {
+			if ( this.focus_tab == is_file_exist_in_array ){
+				this.focus_tab = this.tab_array.length - 1;
+			}
+			this.tab_array.splice(is_file_exist_in_array, 1);
+			this.display_tabs();
+			getAjaxFileContent(this.tab_array[this.tab_array.length-1]);
+		} else {
+			this.display_tabs();
+		}
+	}
 	display_tabs(){
 		var tab_length   = 700 / this.tab_array.length;
 		var tab_section  = document.getElementById("editor_tabs");
@@ -46,6 +63,21 @@ class Tabs {
 			tab_html.style.overflow = "hidden";
 			tab_html.style.whiteSpace = "nowrap"
 			tab_html.style.fontSize = "11px";
+			tab_html.style.zIndex 	= "1";
+			//
+			var tab_remove_button 	= document.createElement("span");
+			tab_remove_button.innerText = "x";
+			tab_remove_button.style.float = "right";
+			tab_remove_button.style.paddingLeft = "5px"
+			tab_remove_button.style.width = "15px"
+			tab_remove_button.style.zIndex = "2";
+			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
+			tab_remove_button.style.color = "white";
+			tab_remove_button.onclick = function(e){
+				/* tabs使い方 */ tabs.remove_tab(item);
+				e.stopPropagation();
+			}
+			tab_html.append(tab_remove_button);
 			var tab_array_index = tab_array_all.indexOf(item);
 			tab_html.onclick = function(){
 				/* tabs使い方 */ tabs.focus_tab = tab_array_index;
