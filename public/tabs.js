@@ -4,7 +4,7 @@ class Tabs {
 		this.tab_array = tab_array;
 		this.tab_limit_length = 6;
 		this.focus_tab = 0;
-		this.dragging_tab;
+		this.dragging_tab_html;
 		this.mouse_down_original_x = 0;
 		this.mouse_up_original_x = 0;
 		this.mouse_down_original_y = 0;
@@ -69,7 +69,7 @@ class Tabs {
 			tab_html.style.whiteSpace = "nowrap"
 			tab_html.style.fontSize = "11px";
 			tab_html.style.zIndex 	= "1";
-			tab_html.classList.add("tab_content");
+			tab_html.classList.add("tab_html");
 			tab_html.setAttribute("tab_counter", tab_counter);
 			tab_counter += 1;
 			//
@@ -81,10 +81,10 @@ class Tabs {
 			tab_remove_button.style.zIndex = "12";
 			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
 			tab_remove_button.style.color = "white";
-			tab_remove_button.onclick = function(e){
-				/* tabs使い方 */ tabs.remove_tab(item);
+			tab_remove_button.addEventListener("mousedown", function(e){
 				e.stopPropagation();
-			}
+				/* tabs使い方 */ tabs.remove_tab(item);
+			}, false);
 			tab_html.append(tab_remove_button);
 			var tab_array_index = tab_array_all.indexOf(item);
 			// tab_html.onclick = function(){
@@ -96,23 +96,23 @@ class Tabs {
 				tab_html.classList.add("drag");
 				var x = e.clientX;
 				console.log(x);
+				var current_tab_html = tabs.get_current_tab_html(x); /* tabs 使い方 ... */
+				this.dragging_tab_html = current_tab_html;
 				tab_html.addEventListener("mousemove", function(e){
 					//
 					e.preventDefault();
 					var x = e.clientX;
 					var x_margin = 700 / tabs.tab_array.length;
 					console.log("mouse moving " + x);
-					tab_html.style.left = x - x_margin/2 + "px";
+					this.dragging_tab_html.style.left = x - x_margin/2 + "px";
 				}, false);
 			}, false);
 			tab_html.addEventListener("mouseup", function(e){
 				var x = e.clientX;
 				console.log(x);
-				tab_html.style.position = "relative";
-				tab_html.classList.remove("drag");
-				tab_html.removeEventListener("mousemove", function(e){
-					//
-				}, false);
+				this.dragging_tab_html.style.position = "relative";
+				this.dragging_tab_html.classList.remove("drag");
+				tabs.set_new_tab_html(x, this.dragging_tab_html);
 				/* tabs使い方 */ tabs.focus_tab = tab_array_index;
 				getAjaxFileContent(item);
 				tabs.display_tabs();
@@ -123,15 +123,50 @@ class Tabs {
 			tab_section.append(tab_html);
 		})
 	}
-	mouse_down(e){
-		var x = e.clientX;
-		console.log(x);
-		tab_html.addEventListener("mousemove", this.mouse_move(e), false);
-	}
-	mouse_move(e){
+	get_current_tab_html(pos_x){
 		//
+		var tab_pos_array = [];
+		var tab_pos = 505;
+		var current_pos = 0;
+		var is_pos_first = false;
+		var tab_pos_width = 700 / this.tab_array.length;
+		for(var i = 0; i < this.tab_array.length; i++ ){
+			tab_pos_array.push(tab_pos);
+			if ( pos_x > tab_pos && is_pos_first == false ){
+				current_pos = i;
+			} else {
+				is_pos_first = true;
+			}
+			tab_pos += tab_pos_width;
+		}
+		var current_tab_html = document.getElementsByClassName("tab_html")[current_pos];
+		console.log(tab_pos_array, pos_x, current_tab_html);
+		return current_tab_html
 	}
-	mouse_up(e){
+	set_new_tab_html(pos_x, current_tab_html){
 		//
+		var tab_pos_array = [];
+		var tab_pos = 505;
+		var new_pos = 0;
+		var is_pos_first = false;
+		var tab_pos_width = 700 / this.tab_array.length;
+		for(var i = 0; i < this.tab_array.length; i++ ){
+			tab_pos_array.push(tab_pos);
+			if ( pos_x > tab_pos && is_pos_first == false ){
+				new_pos = i;
+			} else {
+				is_pos_first = true;
+			}
+			tab_pos += tab_pos_width;
+		}
+		var current_text = current_tab_html.innerText.slice(0, current_tab_html.innerText.length-1);
+		var current_pos  = this.tab_array.indexOf(current_text);
+		console.log(this.tab_array, new_pos, current_pos);
+		if (new_pos == current_pos) { return }
+		if (new_pos > current_pos) {
+			//
+		} else if (new_pos < current_pos) {
+			//
+		}
 	}
 }
