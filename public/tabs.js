@@ -2,8 +2,13 @@
 class Tabs {
 	constructor(tab_array){
 		this.tab_array = tab_array;
-		this.tab_limit_length = 8;
+		this.tab_limit_length = 6;
 		this.focus_tab = 0;
+		this.dragging_tab;
+		this.mouse_down_original_x = 0;
+		this.mouse_up_original_x = 0;
+		this.mouse_down_original_y = 0;
+		this.mouse_up_original_y = 0;
 	}
 	add_tab(file_name){
 		// Limit Length
@@ -52,11 +57,11 @@ class Tabs {
 		}
 		var tab_array_all = this.tab_array;
 		var tab_array_focus = this.focus_tab;
+		var tab_counter = 0;
 		this.tab_array.forEach(function(item){
 			var tab_html = document.createElement("div");
 			tab_html.innerText 		= item;
 			tab_html.style.width 	= tab_length + "px";
-			tab_html.style.marginLeft = "5px";
 			tab_html.style.marginTop  = "5px";
 			tab_html.style.border   = "1px solid rgba(125, 125, 125, .5)";
 			tab_html.style.display  = "inline-block";
@@ -64,13 +69,16 @@ class Tabs {
 			tab_html.style.whiteSpace = "nowrap"
 			tab_html.style.fontSize = "11px";
 			tab_html.style.zIndex 	= "1";
+			tab_html.classList.add("tab_content");
+			tab_html.setAttribute("tab_counter", tab_counter);
+			tab_counter += 1;
 			//
 			var tab_remove_button 	= document.createElement("span");
 			tab_remove_button.innerText = "x";
 			tab_remove_button.style.float = "right";
 			tab_remove_button.style.paddingLeft = "5px"
 			tab_remove_button.style.width = "15px"
-			tab_remove_button.style.zIndex = "2";
+			tab_remove_button.style.zIndex = "12";
 			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
 			tab_remove_button.style.color = "white";
 			tab_remove_button.onclick = function(e){
@@ -79,14 +87,51 @@ class Tabs {
 			}
 			tab_html.append(tab_remove_button);
 			var tab_array_index = tab_array_all.indexOf(item);
-			tab_html.onclick = function(){
+			// tab_html.onclick = function(){
+			// 	/* tabs使い方 */ tabs.focus_tab = tab_array_index;
+			// 	getAjaxFileContent(item);
+			// }
+			tab_html.addEventListener("mousedown", function(e){
+				tab_html.style.position = "absolute";
+				tab_html.classList.add("drag");
+				var x = e.clientX;
+				console.log(x);
+				tab_html.addEventListener("mousemove", function(e){
+					//
+					e.preventDefault();
+					var x = e.clientX;
+					var x_margin = 700 / tabs.tab_array.length;
+					console.log("mouse moving " + x);
+					tab_html.style.left = x - x_margin/2 + "px";
+				}, false);
+			}, false);
+			tab_html.addEventListener("mouseup", function(e){
+				var x = e.clientX;
+				console.log(x);
+				tab_html.style.position = "relative";
+				tab_html.classList.remove("drag");
+				tab_html.removeEventListener("mousemove", function(e){
+					//
+				}, false);
 				/* tabs使い方 */ tabs.focus_tab = tab_array_index;
 				getAjaxFileContent(item);
-			}
+				tabs.display_tabs();
+			}, false);
 			if (tab_array_index == tab_array_focus ) {
 				tab_html.style.backgroundColor = "rgba(200, 200, 200, .7)"
 			}
 			tab_section.append(tab_html);
 		})
+	}
+	mouse_down(e){
+		var x = e.clientX;
+		console.log(x);
+		tab_html.addEventListener("mousemove", this.mouse_move(e), false);
+	}
+	mouse_move(e){
+		//
+	}
+	mouse_up(e){
+		//
 	}
 }
