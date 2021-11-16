@@ -36,8 +36,13 @@ class Tabs {
 				this.focus_tab = this.tab_array.length - 1;
 			}
 			this.tab_array.splice(is_file_exist_in_array, 1);
-			this.display_tabs();
-			getAjaxFileContent(this.tab_array[this.tab_array.length-1]);
+			if ( this.tab_array.length != 0 ){
+				this.display_tabs();
+				getAjaxFileContent(this.tab_array[this.tab_array.length-1]);
+			} else {
+				this.display_tabs();
+				getAjaxFileContent("");
+			}
 		} else {
 			this.display_tabs();
 		}
@@ -81,6 +86,7 @@ class Tabs {
 			tab_remove_button.style.zIndex = "12";
 			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
 			tab_remove_button.style.color = "white";
+			tab_remove_button.classList.add("remove_button");
 			tab_remove_button.addEventListener("mousedown", function(e){
 				e.stopPropagation();
 				/* tabs使い方 */ tabs.remove_tab(item);

@@ -3,16 +3,21 @@ function changeFileContent() {
 }
 
 function getAjaxFileContent(file_name){
-	var file_data = "file_name=" + file_name
-	var file_content = "";
-	$.ajax({
-		type: "GET",
-		url: "file_content",
-		data: file_data,
-	})
-	.done(function(data){
-		document.getElementById("editor-textarea").value = data["file_content"];
-		tabs.add_tab(file_name);
+	if ( file_name != "" ){
+		var file_data = "file_name=" + file_name
+		var file_content = "";
+		$.ajax({
+			type: "GET",
+			url: "file_content",
+			data: file_data,
+		})
+		.done(function(data){
+			document.getElementById("editor-textarea").value = data["file_content"];
+			tabs.add_tab(file_name);
+			show_editor();
+		});
+	} else {
+		document.getElementById("editor-textarea").value = "";
 		show_editor();
-	});
+	}
 }
