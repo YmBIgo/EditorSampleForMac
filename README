@@ -1,0 +1,13 @@
+*** README
+
+1. How to start
+
+以下のコマンドでサーバーを立ち上げます。
+```
+node app.js
+```
+
+その後、以下のURLにアクセスします。
+```
+http://localhost:3000/
+```
