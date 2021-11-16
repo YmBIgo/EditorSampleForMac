@@ -99,7 +99,6 @@ class Tabs {
 			// }
 			tab_html.addEventListener("mousedown", function(e){
 				tab_html.style.position = "absolute";
-				tab_html.classList.add("drag");
 				var x = e.clientX;
 				console.log(x);
 				var current_tab_html = tabs.get_current_tab_html(x); /* tabs 使い方 ... */
