@@ -97,6 +97,16 @@ class Tabs {
 				var x = e.clientX;
 				console.log(x);
 				var current_tab_html = tabs.get_current_tab_html(x); /* tabs 使い方 ... */
+				/* tabs使い方 */ tabs.focus_tab = tab_array_index;
+				var tab_htmls = document.getElementsByClassName("tab_html");
+				for(var i = 0; i < tab_htmls.length; i++ ){
+					if ( tabs.focus_tab != i ){
+						tab_htmls[i].style.backgroundColor = "white";
+					} else if ( tabs.focus_tab == i ) {
+						tab_htmls[i].style.backgroundColor = "rgba(200, 200, 200, .7)";
+					}
+				}
+				//
 				this.dragging_tab_html = current_tab_html;
 				tab_html.addEventListener("mousemove", function(e){
 					//
@@ -113,7 +123,6 @@ class Tabs {
 				this.dragging_tab_html.style.position = "relative";
 				this.dragging_tab_html.classList.remove("drag");
 				tabs.set_new_tab_html(x, this.dragging_tab_html);
-				/* tabs使い方 */ tabs.focus_tab = tab_array_index;
 				getAjaxFileContent(item);
 				tabs.display_tabs();
 			}, false);
@@ -165,8 +174,15 @@ class Tabs {
 		if (new_pos == current_pos) { return }
 		if (new_pos > current_pos) {
 			//
+			this.tab_array.splice(new_pos+1, 0, current_text);
+			this.tab_array.splice(current_pos, 1);
 		} else if (new_pos < current_pos) {
 			//
+			//
+			this.tab_array.splice(new_pos, 0, current_text);
+			this.tab_array.splice(current_pos+1, 1);
 		}
+		var current_new_pos = this.tab_array.indexOf(current_text);
+		/* tabs使い方 */ tabs.focus_tab = current_new_pos;
 	}
 }
