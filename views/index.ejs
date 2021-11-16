@@ -69,8 +69,13 @@
 		var li_element  = document.createElement("li");
 		a_element   = document.createElement("a");
 		a_element_inner =  "　".repeat(item[0]);
+		if(item[1] == 0){
+			a_element_inner += "<img src='/public/images/file_small.png' width='11px'> "
+		} else if ( item[1] == 1 ){
+			a_element_inner += "<img src='/public/images/folder_small.jpg' width ='11px'> "
+		}
 		a_element_inner += item[3];
-		a_element.textContent = a_element_inner;
+		a_element.innerHTML = a_element_inner;
 		//
 		a_element.setAttribute("file_depth", item[0]);
 		a_element.setAttribute("is_file", item[1]);
