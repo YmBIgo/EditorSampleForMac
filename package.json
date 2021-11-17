@@ -11,6 +11,7 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "got": "^11.8.2",
     "qwant-api": "^0.5.0"
   }
 }

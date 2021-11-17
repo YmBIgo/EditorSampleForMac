@@ -1,4 +1,5 @@
 var express = require("express");
+var got = require("got");
 var app = express();
 
 var load_file = require("./lib/load_files")
@@ -23,6 +24,18 @@ app.get("/search_result", function(req, res, next){
 	var gcp_api_key = process.env.GCP_API_KEY;
 	var keyword 	= req.query.keyword.replace(/\'/gi, "");
 	var gcp_request_url = "https://www.googleapis.com/customsearch/v1?key=" + gcp_api_key + "&cx=51356a11eee1142c3&q=" + keyword
+	var response_result;
+	(async() => {
+		try {
+			const response = await got(gcp_request_url);
+			response_result = response.body
+		} catch (error) {
+			console.log(error);
+		}
+	})()
+	.then(function(){
+		res.send({search_result: response_result})
+	})
 });
 
 app.get("/file_content", function(req, res, next){
