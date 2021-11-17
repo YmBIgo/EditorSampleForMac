@@ -57,9 +57,9 @@
 			</div>
 			<div id="modal-search-result">
 				<div class="modal-section-inner">
-					<h2><span id="search-again-title">検索する</span>　<input type="text" id="search-again-input" class="form-control" placeholder="検索ワードを入力" style="width:60%;display:inline-block">　<input type="button" id="search-again-word-button" class="btn btn-primary" value="検索する" style="display:inline-block"></h2>
+					<h2><span id="search-again-title">検索する</span>　<input type="text" id="search-again-word-input" class="form-control" placeholder="検索ワードを入力" style="width:60%;display:inline-block">　<input type="button" id="search-again-word-button" class="btn btn-primary" value="検索する" style="display:inline-block"></h2>
 					<hr>
-					<div id="modal-search-result">
+					<div id="modal-search-result-area">
 					</div>
 				</div>
 			</div>
@@ -68,10 +68,34 @@
 document.getElementById("search-word-button").onclick = function(){
 	document.getElementById("modal-search-top").style.display = "none";
 	document.getElementById("modal-search-result").style.display = "block";
+	document.getElementById("modal-search-result-area").innerHTML = ""
+	var keyword = document.getElementById("search-word-input").value;
+	var fetch_url = "/search_result?keyword=" + keyword;
+	var search_results;
+	console.log(fetch_url);
+	fetch(fetch_url)
+		.then(response => response.json())
+		.then(object =>
+			show_modal_search_result(object["search_result"])
+		)
 }
 document.getElementById("search-again-title").onclick = function(){
 	document.getElementById("modal-search-top").style.display = "block";
 	document.getElementById("modal-search-result").style.display = "none";
+}
+document.getElementById("search-again-word-button").onclick = function(){
+	document.getElementById("modal-search-top").style.display = "none";
+	document.getElementById("modal-search-result").style.display = "block";
+	document.getElementById("modal-search-result-area").innerHTML = ""
+	var keyword = document.getElementById("search-again-word-input").value;
+	var fetch_url = "/search_result?keyword=" + keyword;
+	var search_results;
+	console.log(fetch_url);
+	fetch(fetch_url)
+		.then(response => response.json())
+		.then(object =>
+			show_modal_search_result(object["search_result"])
+		)
 }
 </script>
 	</div>

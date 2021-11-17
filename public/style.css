@@ -57,10 +57,28 @@
 	margin-left:5%;
 	height:600px;
 	margin-top:70px;
+	overflow: scroll;
 }
 .modal-section-inner{
 	padding:10px;
 }
 #modal-search-result{
 	display:none;
+	padding:10px;
+}
+.search_result_each{
+	margin-top:15px;
+	width:60%;
+}
+.search_result_link{
+	display:block;
+	font-size:12px;
+	color:#777;
+}
+.search_result_title{
+	margin-bottom:5px;
+	font-size:20px;
+}
+.search_result_snippet{
+	width:60%;
 }
