@@ -84,6 +84,9 @@
 		a_element.setAttribute("parent_file", item[5]);
 		if ( item[0] != 0 ){
 			a_element.style.display = "none";
+			a_element.setAttribute("is_file_open", 0);
+		} else if ( item[0] == 0 ) {
+			a_element.setAttribute("is_file_open", 1);
 		}
 		if ( item[1] == 0 ){
 			//
@@ -107,17 +110,49 @@
 						file_name_file_count = parseInt(file_names[i].getAttribute("parent_file"));
 						if ( file_name_file_count == current_file_count ){
 							file_names[i].style.display = "block";
+							file_names[i].setAttribute("is_file_open", 1)
 						}
 					}
 					a_element.setAttribute("is_open", 1);
 				} else {
 					console.log("closing files....");
+					var file_is_open_array = [];
+					var file_all_array = {};
 					for(var i = 0; i < file_names.length; i++){
-						file_name_file_count = parseInt(file_names[i].getAttribute("parent_file"));
-						if ( file_name_file_count == current_file_count ){
-							file_names[i].style.display = "none";
+						file_is_open = parseInt(file_names[i].getAttribute("is_file_open"));
+						if ( file_is_open == 1 ){
+							file_is_open_array.push(file_names[i])
 						}
+						file_all_array[i+1] = file_names[i];
 					}
+					// console.log(file_all_array);
+					file_is_open_array.forEach(function(item){
+						// console.log(item.innerText);
+						var open_file_depth = item.getAttribute("file_depth");
+						var current_item = item;
+						var current_item_file_count;
+						for(var j = open_file_depth; j >= 0; j-- ){
+							//
+							// console.log(i);
+							if ( j != 0 ){
+								current_item = file_all_array[current_item.getAttribute("parent_file")]
+							} else if ( j == 0) {
+								current_item = file_all_array[current_item.getAttribute("file_count")]
+							}
+							// console.log(current_item)
+							current_item_file_count = current_item.getAttribute("file_count");
+							if ( current_file_count == current_item_file_count && j!=0 ){
+								// console.log()
+								item.style.display = "none";
+							}
+						}
+					});
+					// for(var i = 0; i < file_names.length; i++){
+					// 	file_name_file_count = parseInt(file_names[i].getAttribute("parent_file"));
+					// 	if ( file_name_file_count == current_file_count ){
+					// 		file_names[i].style.display = "none";
+					// 	}
+					// }
 					a_element.setAttribute("is_open", 0);
 				}
 			}
