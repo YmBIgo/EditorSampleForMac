@@ -18,6 +18,13 @@ app.get("/", function(req, res, next){
 	res.render("index", {all_files: file_result});
 });
 
+app.get("/search_result", function(req, res, next){
+	//
+	var gcp_api_key = process.env.GCP_API_KEY;
+	var keyword 	= req.query.keyword.replace(/\'/gi, "");
+	var gcp_request_url = "https://www.googleapis.com/customsearch/v1?key=" + gcp_api_key + "&cx=51356a11eee1142c3&q=" + keyword
+});
+
 app.get("/file_content", function(req, res, next){
 	var file_name 	 = req.query.file_name;
 	console.log(file_name);
