@@ -91,6 +91,13 @@
 	border:1px solid rgba(100, 100, 100, .5);
 	/*margin:0 2.5%;*/
 }
+.search_result_each_next{
+	height:400px;
+	border:1px solid rgba(100, 100, 100, .5);
+	vertical-align: middle;
+	font-size:30px;
+	padding-top:185px;
+}
 .search_result_textarea{
 	margin:10px 5%;
 	width:90%;

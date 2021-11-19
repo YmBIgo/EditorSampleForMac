@@ -87,6 +87,35 @@ function show_modal_search_result_ver2(e){
 	var display_id = get_ver2_display_id();
 	var modal_search_result_row = document.createElement("div");
 	modal_search_result_row.classList.add("row");
+	//
+	var modal_prev_page = document.createElement("div");
+	modal_prev_page.classList.add("col-1");
+	modal_prev_page.classList.add("search_result_each_next");
+	modal_prev_page.innerText = "<"
+	modal_prev_page.onclick = function(e){
+		var current_display_id = get_ver2_display_id();
+		current_display_id -= 2;
+		set_ver2_display_id(current_display_id);
+		current_display_id = get_ver2_display_id();
+		// console.log(current_display_id)
+		show_modal_search_result_ver2(e)
+		e.stopPropagation();
+	}
+	var modal_next_page = document.createElement("div");
+	modal_next_page.classList.add("col-1");
+	modal_next_page.classList.add("search_result_each_next");
+	modal_next_page.innerText = ">";
+	modal_next_page.onclick = function(e){
+		var current_display_id = get_ver2_display_id();
+		current_display_id += 2;
+		set_ver2_display_id(current_display_id);
+		current_display_id = get_ver2_display_id();
+		// console.log(current_display_id)
+		show_modal_search_result_ver2(e)
+		e.stopPropagation();
+	}
+	//
+	modal_search_result_row.append(modal_prev_page);
 	for ( var i = display_id; i < display_id + 2; i++ ){
 		var search_result_array = search_results[i];
 		var modal_search_each_result = document.createElement("div");
@@ -114,7 +143,8 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_right_arrow.classList.add("col-4");
 		modal_search_each_right_arrow.classList.add("search_each_right_arrow");
 		modal_search_each_right_arrow.innerText = "<"
-		modal_search_each_right_arrow.setAttribute("button_id", i);
+		var button_id_i = i%2
+		modal_search_each_right_arrow.setAttribute("button_id", button_id_i);
 		modal_search_each_right_arrow.onclick = function(e){
 			//
 			var button_id = parseInt(e.target.getAttribute("button_id"));
@@ -136,7 +166,8 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_left_arrow.classList.add("search_each_left_arrow");
 		modal_search_each_left_arrow.innerText = "<";
 		modal_search_each_left_arrow.style.direction = "rtl";
-		modal_search_each_left_arrow.setAttribute("button_id", i);
+		var button_id_i = i%2
+		modal_search_each_left_arrow.setAttribute("button_id", button_id_i);
 		modal_search_each_left_arrow.onclick = function(e){
 			//
 			var button_id = parseInt(e.target.getAttribute("button_id"));
@@ -155,7 +186,8 @@ function show_modal_search_result_ver2(e){
 		}
 		var modal_search_each_button = document.createElement("button");
 		modal_search_each_button.classList.add("col-4");
-		modal_search_each_button.setAttribute("button_id", i)
+		var button_id_i = i%2
+		modal_search_each_button.setAttribute("button_id", button_id_i)
 		modal_search_each_button.style.fontSize = "11px"
 		modal_search_each_button.innerText = "コードスニペット取得"
 		modal_search_each_button.onclick = function(e){
@@ -164,7 +196,6 @@ function show_modal_search_result_ver2(e){
 			console.log(page_url)
 			getAjaxCodeSnippet(page_url, button_id, code_snippet_array)
 		}
-		//
 		modal_search_each_row.append(modal_search_each_right_arrow);
 		modal_search_each_row.append(modal_search_each_button);
 		modal_search_each_row.append(modal_search_each_left_arrow);
@@ -178,20 +209,24 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_result.append(modal_search_each_snippet);
 		modal_search_each_result.append(modal_search_each_textarea);
 		modal_search_each_result.append(modal_search_each_row);
+		//
 		modal_search_result_row.append(modal_search_each_result);
-		modal_search_result.append(modal_search_each_result);
+		// modal_search_result.append(modal_search_each_result);
 	}
+	modal_search_result_row.append(modal_next_page);
 	modal_search_result.append(modal_search_result_row);
 }
 
 function set_ver2_display_id(number){
-	if ( number > 9 ) { number = 9 }
-	if ( number < 0 ) { number = 0 }
+	if ( number > 8 ) { number = 0 }
+	if ( number < 0 ) { number = 8 }
 	var modal_ver2_display_id_ele = document.getElementsByClassName("modal_ver2_display_id")[0]
 	var modal_ver2_display_id = modal_ver2_display_id_ele.setAttribute("display_id", number);
 }
 function get_ver2_display_id(){
 	var modal_ver2_display_id_ele = document.getElementsByClassName("modal_ver2_display_id")[0]
 	var modal_ver2_display_id = modal_ver2_display_id_ele.getAttribute("display_id");
+	if ( modal_ver2_display_id > 8 ) { modal_ver2_display_id_ele.setAttribute("display_id", 0) }
+	if ( modal_ver2_display_id < 0 ) { modal_ver2_display_id_ele.setAttribute("display_id", 8) }
 	return parseInt(modal_ver2_display_id)
 }
