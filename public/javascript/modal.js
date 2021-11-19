@@ -103,7 +103,7 @@ function show_modal_search_result_ver2(e){
 		var modal_search_each_snippet = document.createElement("span");
 		modal_search_each_snippet.innerText = search_result_array["snippet"];
 		modal_search_each_snippet.style.fontSize = "14px"
-		modal_search_each_snippet.style.padding = "5px";
+		modal_search_each_snippet.style.padding = "5px"
 		modal_search_each_snippet.classList.add("search_result_snippet");
 		var modal_search_each_textarea = document.createElement("textarea");
 		modal_search_each_textarea.classList.add("search_result_textarea");
