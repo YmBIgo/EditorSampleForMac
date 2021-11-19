@@ -83,12 +83,13 @@
 	width:60%;
 }
 .search_result_each_ver2{
-	width:45%;
-	height:400px;
+	/*width:45%;*/
+	height:450px;
+	vertical-align:top;
 	padding:10px;
 	display:inline-block;
 	border:1px solid rgba(100, 100, 100, .5);
-	margin:0 2.5%;
+	/*margin:0 2.5%;*/
 }
 .search_result_textarea{
 	margin:10px 5%;

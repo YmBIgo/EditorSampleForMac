@@ -83,7 +83,10 @@ function show_modal_search_result_ver2(e){
 	modal_change_button.classList.add("modal_change_button_ver2")
 	modal_change_button.onclick = show_modal_search_result_ver1;
 	modal_search_result.append(modal_change_button)
+	//
 	var display_id = get_ver2_display_id();
+	var modal_search_result_row = document.createElement("div");
+	modal_search_result_row.classList.add("row");
 	for ( var i = display_id; i < display_id + 2; i++ ){
 		var search_result_array = search_results[i];
 		var modal_search_each_result = document.createElement("div");
@@ -92,12 +95,15 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_title.innerText = search_result_array["title"];
 		modal_search_each_title.href = search_result_array["link"];
 		modal_search_each_title.classList.add("search_result_title");
+		modal_search_each_title.style.padding = "5px";
 		var modal_search_each_url    = document.createElement("small");
 		modal_search_each_url.classList.add("search_result_link");
 		modal_search_each_url.innerText = search_result_array["link"];
+		modal_search_each_url.style.padding = "5px";
 		var modal_search_each_snippet = document.createElement("span");
 		modal_search_each_snippet.innerText = search_result_array["snippet"];
 		modal_search_each_snippet.style.fontSize = "14px"
+		modal_search_each_snippet.style.padding = "5px";
 		modal_search_each_snippet.classList.add("search_result_snippet");
 		var modal_search_each_textarea = document.createElement("textarea");
 		modal_search_each_textarea.classList.add("search_result_textarea");
@@ -164,6 +170,7 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_row.append(modal_search_each_left_arrow);
 		//
 		modal_search_each_result.classList.add("search_result_each_ver2");
+		modal_search_each_result.classList.add("col-5");
 		modal_search_each_result.append(modal_search_each_url);
 		modal_search_each_result.append(modal_search_each_blank);
 		modal_search_each_result.append(modal_search_each_title);
@@ -171,8 +178,10 @@ function show_modal_search_result_ver2(e){
 		modal_search_each_result.append(modal_search_each_snippet);
 		modal_search_each_result.append(modal_search_each_textarea);
 		modal_search_each_result.append(modal_search_each_row);
-		modal_search_result.append(modal_search_each_result)
+		modal_search_result_row.append(modal_search_each_result);
+		modal_search_result.append(modal_search_each_result);
 	}
+	modal_search_result.append(modal_search_result_row);
 }
 
 function set_ver2_display_id(number){
