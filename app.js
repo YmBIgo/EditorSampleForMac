@@ -2,7 +2,8 @@ var express = require("express");
 var got = require("got");
 var app = express();
 
-var load_file = require("./lib/load_files")
+var load_file = require("./lib/load_files");
+var code_snippet = require("./lib/code_snippet");
 
 app.use("/public", express.static(__dirname + "/public"));
 
@@ -45,4 +46,8 @@ app.get("/file_content", function(req, res, next){
 	res.json({'file_content':file_content});
 });
 
+app.get("/get_code_snippet", function(req, res, next){
+	var page_url = req.query.page_url;
+	code_snippet.get_code_snippet_json(page_url, res)	
+})
 

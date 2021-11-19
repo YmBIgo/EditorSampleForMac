@@ -65,6 +65,12 @@
 			</div>
 		</div>
 <script>
+document.getElementsByClassName("modal1")[0].addEventListener("click", (e) => {
+	if ( e.target.closest(".modal-section") == null ){
+		hide_modal();
+	}
+});
+//
 document.getElementById("search-word-button").onclick = function(){
 	document.getElementById("modal-search-top").style.display = "none";
 	document.getElementById("modal-search-result").style.display = "block";
