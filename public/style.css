@@ -82,3 +82,20 @@
 .search_result_snippet{
 	width:60%;
 }
+.search_result_each_ver2{
+	width:45%;
+	height:400px;
+	padding:10px;
+	display:inline-block;
+	border:1px solid rgba(100, 100, 100, .5);
+	margin:0 2.5%;
+}
+.search_result_textarea{
+	margin:10px 5%;
+	width:90%;
+	height: 150px;
+}
+.modal_change_button_ver2{
+	display:block !important;
+	margin-bottom:10px;
+}

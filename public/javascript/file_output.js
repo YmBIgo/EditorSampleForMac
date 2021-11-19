@@ -21,3 +21,25 @@ function getAjaxFileContent(file_name){
 		show_editor();
 	}
 }
+
+function getAjaxCodeSnippet(page_url, button_id, code_snippet_array){
+	console.log(page_url)
+	if ( page_url != "" ){
+		var page_url_parameter = "page_url=" + page_url
+		var code_snippets = "";
+		$.ajax({
+			type: "GET",
+			url: "get_code_snippet",
+			data: page_url_parameter
+		})
+		.done(function(data){
+			//
+			var search_result = data["search_result"]
+			console.log(search_result);
+			code_snippet_array[button_id] = search_result;
+			document.getElementsByClassName("search_result_textarea")[button_id].value = search_result[0];
+		});
+	} else {
+		//
+	}
+}
