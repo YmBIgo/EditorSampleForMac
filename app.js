@@ -5,6 +5,7 @@ var app = express();
 var load_file = require("./lib/load_files");
 var code_snippet = require("./lib/code_snippet");
 
+app.use(express.json());
 app.use("/public", express.static(__dirname + "/public"));
 
 app.set('view engine', 'ejs');
@@ -49,6 +50,7 @@ app.get("/file_content", function(req, res, next){
 app.post("/create_file", function(req, res, next){
 	var file_path = req.body.file_path;
 	var file_content = req.body.file_content;
+	load_file.generate_file(file_path, file_content)
 	res.json({file_name: file_path})
 })
 

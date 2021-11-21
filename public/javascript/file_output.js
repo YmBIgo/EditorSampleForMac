@@ -43,3 +43,21 @@ function getAjaxCodeSnippet(page_url, button_id, code_snippet_array){
 		//
 	}
 }
+
+function accessCreateFile(file_path, file_content){
+	//
+	if ( file_path != "" ) {
+		fetch("http://localhost:3000/create_file", {
+			method: "POST",
+			headers: {
+				'content-type' : 'application/json'
+			},
+			body: JSON.stringify({ 'file_path':file_path, 'file_content':file_content })
+		}).then(response => {
+			var response_result = response.json();
+			return response_result
+		}).catch(error => {
+			console.log(error);
+		})
+	}
+}

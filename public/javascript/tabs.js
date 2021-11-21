@@ -9,6 +9,8 @@ class Tabs {
 		this.mouse_up_original_x = 0;
 		this.mouse_down_original_y = 0;
 		this.mouse_up_original_y = 0;
+		this.tab_editting_array = {};
+		this.event_current_item;
 	}
 	add_tab(file_name){
 		// Limit Length
@@ -22,6 +24,7 @@ class Tabs {
 			this.display_tabs();
 		} else {
 			this.tab_array.push(file_name);
+			this.tab_editting_array[file_name] = 0;
 			this.focus_tab = this.tab_array.length -1;
 			this.display_tabs();
 		}
@@ -41,6 +44,7 @@ class Tabs {
 				//
 			}
 			this.tab_array.splice(is_file_exist_in_array, 1);
+			delete this.tab_editting_array[file_name]
 			if ( this.tab_array.length != 0 ){
 				this.display_tabs();
 				getAjaxFileContent(this.tab_array[this.focus_tab]);
@@ -70,6 +74,8 @@ class Tabs {
 		var tab_array_focus = this.focus_tab;
 		var tab_counter = 0;
 		this.tab_array.forEach(function(item){
+			tabs.event_current_item = item;
+			//
 			var tab_html = document.createElement("div");
 			tab_html.innerText 		= item;
 			tab_html.style.width 	= tab_length + "px";
@@ -82,10 +88,8 @@ class Tabs {
 			tab_html.style.zIndex 	= "1";
 			tab_html.classList.add("tab_html");
 			tab_html.setAttribute("tab_counter", tab_counter);
-			tab_counter += 1;
 			//
 			var tab_remove_button 	= document.createElement("span");
-			tab_remove_button.innerText = "x";
 			tab_remove_button.style.float = "right";
 			tab_remove_button.style.paddingLeft = "5px"
 			tab_remove_button.style.width = "15px"
@@ -93,10 +97,25 @@ class Tabs {
 			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
 			tab_remove_button.style.color = "white";
 			tab_remove_button.classList.add("remove_button");
-			tab_remove_button.addEventListener("mousedown", function(e){
-				e.stopPropagation();
-				/* tabs使い方 */ tabs.remove_tab(item);
-			}, false);
+			if ( tabs.tab_editting_array[item] == 0 ){
+				tab_remove_button.innerText = "x";
+				tab_remove_button.addEventListener("mousedown", remove_tab_onmousedown)
+			} else {
+				tab_remove_button.innerText = "◯";
+				// tab_remove_button.removeEventListener("mousedown", remove_tab_onmousedown);
+				tab_remove_button.addEventListener("mousedown", function(e){
+					e.stopPropagation();
+					var file_content = editor.getValue();
+					var file_path 	 = tabs.tab_array[tabs.focus_tab]
+					accessCreateFile(file_path, file_content);
+					tab_remove_button.innerText = "x";
+					tabs.tab_editting_array[item] = 0;
+					tab_remove_button.addEventListener("mousedown", function(e){
+						e.stopPropagation();
+						tabs.remove_tab(item);
+					})
+				})
+			}
 			tab_html.append(tab_remove_button);
 			var tab_array_index = tab_array_all.indexOf(item);
 			// tab_html.onclick = function(){
@@ -142,6 +161,7 @@ class Tabs {
 			if (tab_array_index == tab_array_focus ) {
 				tab_html.style.backgroundColor = "rgba(200, 200, 200, .7)"
 			}
+			tab_counter += 1;
 			tab_section.append(tab_html);
 		})
 	}
@@ -198,4 +218,9 @@ class Tabs {
 		var current_new_pos = this.tab_array.indexOf(current_text);
 		/* tabs使い方 */ tabs.focus_tab = current_new_pos;
 	}
+}
+
+function remove_tab_onmousedown(e){
+	e.stopPropagation();
+	tabs.remove_tab(tabs.event_current_item);
 }
