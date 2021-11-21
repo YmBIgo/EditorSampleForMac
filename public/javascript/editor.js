@@ -1,3 +1,4 @@
+
 function show_editor(){
 	var isCodeMirrorExist = document.getElementsByClassName("CodeMirror");
 	if (isCodeMirrorExist.length > 0) {
@@ -10,4 +11,8 @@ function show_editor(){
 	});
 	editor.setSize(null, 500);
 	editor.save();
+	//
+	editor.on("change", function(e){
+		// console.log(editor.getValue())
+	})
 }

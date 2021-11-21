@@ -18,6 +18,7 @@ class Tabs {
 		// indexOf
 		var is_file_exist_in_array = this.tab_array.indexOf(file_name);
 		if ( is_file_exist_in_array != -1 ) {
+			this.focus_tab = is_file_exist_in_array;
 			this.display_tabs();
 		} else {
 			this.tab_array.push(file_name);
@@ -33,13 +34,18 @@ class Tabs {
 		var is_file_exist_in_array = this.tab_array.indexOf(file_name);
 		if ( is_file_exist_in_array != -1 ) {
 			if ( this.focus_tab == is_file_exist_in_array ){
-				this.focus_tab = this.tab_array.length - 1;
+				this.focus_tab = this.tab_array.length - 2;
+			} else if ( this.focus_tab > is_file_exist_in_array ){
+				this.focus_tab = this.focus_tab - 1
+			} else if ( this.focus_tab < is_file_exist_in_array ){
+				//
 			}
 			this.tab_array.splice(is_file_exist_in_array, 1);
 			if ( this.tab_array.length != 0 ){
 				this.display_tabs();
-				getAjaxFileContent(this.tab_array[this.tab_array.length-1]);
+				getAjaxFileContent(this.tab_array[this.focus_tab]);
 			} else {
+				this.focus_tab = -1;
 				this.display_tabs();
 				getAjaxFileContent("");
 			}
@@ -125,9 +131,11 @@ class Tabs {
 			tab_html.addEventListener("mouseup", function(e){
 				var x = e.clientX;
 				console.log(x);
-				this.dragging_tab_html.style.position = "relative";
-				this.dragging_tab_html.classList.remove("drag");
-				tabs.set_new_tab_html(x, this.dragging_tab_html);
+				if ( this.dragging_tab_html != undefined ){
+					this.dragging_tab_html.style.position = "relative";
+					this.dragging_tab_html.classList.remove("drag");
+					tabs.set_new_tab_html(x, this.dragging_tab_html);
+				}
 				getAjaxFileContent(item);
 				tabs.display_tabs();
 			}, false);

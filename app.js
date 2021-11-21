@@ -46,8 +46,15 @@ app.get("/file_content", function(req, res, next){
 	res.json({'file_content':file_content});
 });
 
+app.post("/create_file", function(req, res, next){
+	var file_path = req.body.file_path;
+	var file_content = req.body.file_content;
+	res.json({file_name: file_path})
+})
+
 app.get("/get_code_snippet", function(req, res, next){
 	var page_url = req.query.page_url;
 	code_snippet.get_code_snippet_json(page_url, res)	
-})
+});
+
 
