@@ -53,6 +53,13 @@ app.post("/create_file", function(req, res, next){
 	load_file.generate_file(file_path, file_content)
 	res.json({file_name: file_path})
 })
+app.post("/create_tempfile", function(req, res, next){
+	var file_original_path = req.body.file_path;
+	var file_temp_path = "user_data/" + file_original_path;
+	var file_content = req.body.file_content;
+	load_file.generate_tempfile(file_original_path, file_content)
+	res.json({file_name: file_temp_path})
+})
 
 app.get("/get_code_snippet", function(req, res, next){
 	var page_url = req.query.page_url;

@@ -15,7 +15,8 @@ function show_editor(){
 	//
 	editor.on("change", function(e){
 		var file_content = editor.getValue();
-		var file_path 	 = tabs.tab_array[tabs.focus_tab]
+		var file_path 	 = tabs.tab_array[tabs.focus_tab];
+		accessCreateTempfile(file_path, file_content);
 		tabs.tab_editting_array[file_path] = 1;
 		if ( file_path == undefined ) { return }
 		var current_tab_html = document.getElementsByClassName("tab_html")[tabs.focus_tab];

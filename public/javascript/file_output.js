@@ -4,7 +4,13 @@ function changeFileContent() {
 
 function getAjaxFileContent(file_name){
 	if ( file_name != "" ){
-		var file_data = "file_name=" + file_name
+		if ( tabs.tab_editting_array[file_name] == 0 ){
+			var file_data = "file_name=" + file_name
+		} else if (tabs.tab_editting_array[file_name] == 1) {
+			var file_data = "file_name=user_data/" + file_name
+		} else {
+			var file_data = "file_name=" + file_name
+		}
 		var file_content = "";
 		$.ajax({
 			type: "GET",
@@ -48,6 +54,23 @@ function accessCreateFile(file_path, file_content){
 	//
 	if ( file_path != "" ) {
 		fetch("http://localhost:3000/create_file", {
+			method: "POST",
+			headers: {
+				'content-type' : 'application/json'
+			},
+			body: JSON.stringify({ 'file_path':file_path, 'file_content':file_content })
+		}).then(response => {
+			var response_result = response.json();
+			return response_result
+		}).catch(error => {
+			console.log(error);
+		})
+	}
+}
+function accessCreateTempfile(file_path, file_content){
+	//
+	if ( file_path != "" ) {
+		fetch("http://localhost:3000/create_tempfile", {
 			method: "POST",
 			headers: {
 				'content-type' : 'application/json'
