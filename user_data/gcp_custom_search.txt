@@ -1,7 +1,0 @@
-https://www.googleapis.com/customsearch/v1?key=API_KEY&cx=51356a11eee1142c3&q=hoge
-
-hogehoge
-
-result["items"][0]["title"]
-result["items"][0]["link"]
-result["items"][0]["snippet"]

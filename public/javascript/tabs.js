@@ -10,7 +10,6 @@ class Tabs {
 		this.mouse_down_original_y = 0;
 		this.mouse_up_original_y = 0;
 		this.tab_editting_array = {};
-		this.event_current_item;
 	}
 	add_tab(file_name){
 		// Limit Length
@@ -74,7 +73,6 @@ class Tabs {
 		var tab_array_focus = this.focus_tab;
 		var tab_counter = 0;
 		this.tab_array.forEach(function(item){
-			tabs.event_current_item = item;
 			//
 			var tab_html = document.createElement("div");
 			tab_html.innerText 		= item;
@@ -97,6 +95,7 @@ class Tabs {
 			tab_remove_button.style.backgroundColor = "rgba(50, 50, 50)"
 			tab_remove_button.style.color = "white";
 			tab_remove_button.classList.add("remove_button");
+			tab_remove_button.setAttribute("button_counter", tab_counter)
 			if ( tabs.tab_editting_array[item] == 0 ){
 				tab_remove_button.innerText = "x";
 				tab_remove_button.addEventListener("mousedown", remove_tab_onmousedown)
@@ -222,5 +221,7 @@ class Tabs {
 
 function remove_tab_onmousedown(e){
 	e.stopPropagation();
-	tabs.remove_tab(tabs.event_current_item);
+	var button_id = parseInt(e.target.getAttribute("button_counter"))
+	var tab_name = tabs.tab_array[button_id]
+	tabs.remove_tab(tab_name);
 }
