@@ -84,3 +84,28 @@ function accessCreateTempfile(file_path, file_content){
 		})
 	}
 }
+function accessCreateNewFile(folder_path, file_name){
+	//
+	if ( folder_path != "" ) {
+		fetch("http://localhost:3000/new_file", {
+			method: "POST",
+			headers: {
+				'content-type' : 'application/json'
+			},
+			body: JSON.stringify({ 'foldername':folder_path, 'filename': file_name})
+		}).then(response => {
+			var response_result = response.json();
+			return response_result
+		}).then(data => {
+			var is_file_new = data["is_file_new"];
+			var file_path = data["file_path"];
+			if ( is_file_new == true ) {
+				document.getElementById("editor-textarea").value = "";
+				tabs.add_tab(file_path);
+				show_editor();
+			}
+		}).catch(error => {
+			console.log(error);
+		})
+	}
+}

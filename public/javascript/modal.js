@@ -12,7 +12,7 @@ document.onkeydown = function(e){
 
 var current_json;
 
-// [ Modal ]
+// [ Search Modal ]
 function show_modal(){
 	document.getElementsByClassName("modal1")[0].style.display = "block";
 }
@@ -30,7 +30,7 @@ function show_modal_search_result(json){
 	modal_ver2_display_id.style.display = "none";
 	modal_ver2_display_id.setAttribute("display_id", "0");
 	var modal_change_button = document.createElement("button")
-	modal_change_button.innerText = "変更する"
+	modal_change_button.innerText = "2件表示に変更する"
 	modal_change_button.classList.add("btn");
 	modal_change_button.classList.add("btn-info");
 	current_json = json
@@ -77,7 +77,7 @@ function show_modal_search_result_ver2(e){
 	modal_search_result.innerHTML = "";
 	//
 	var modal_change_button = document.createElement("button")
-	modal_change_button.innerText = "変更する"
+	modal_change_button.innerText = "10件表示に変更する"
 	modal_change_button.classList.add("btn");
 	modal_change_button.classList.add("btn-info");
 	modal_change_button.classList.add("modal_change_button_ver2")
@@ -91,7 +91,7 @@ function show_modal_search_result_ver2(e){
 	var modal_prev_page = document.createElement("div");
 	modal_prev_page.classList.add("col-1");
 	modal_prev_page.classList.add("search_result_each_next");
-	modal_prev_page.innerText = "<"
+	modal_prev_page.innerText = "<前の２件"
 	modal_prev_page.onclick = function(e){
 		var current_display_id = get_ver2_display_id();
 		current_display_id -= 2;
@@ -104,7 +104,7 @@ function show_modal_search_result_ver2(e){
 	var modal_next_page = document.createElement("div");
 	modal_next_page.classList.add("col-1");
 	modal_next_page.classList.add("search_result_each_next");
-	modal_next_page.innerText = ">";
+	modal_next_page.innerText = "次の２件>";
 	modal_next_page.onclick = function(e){
 		var current_display_id = get_ver2_display_id();
 		current_display_id += 2;
@@ -229,4 +229,13 @@ function get_ver2_display_id(){
 	if ( modal_ver2_display_id > 8 ) { modal_ver2_display_id_ele.setAttribute("display_id", 0) }
 	if ( modal_ver2_display_id < 0 ) { modal_ver2_display_id_ele.setAttribute("display_id", 8) }
 	return parseInt(modal_ver2_display_id)
+}
+
+// [ New File Modal ]
+// [ Modal ]
+function show_modal2(){
+	document.getElementsByClassName("modal2")[0].style.display = "block";
+}
+function hide_modal2(){
+	document.getElementsByClassName("modal2")[0].style.display = "none";
 }

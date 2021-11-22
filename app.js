@@ -1,11 +1,13 @@
 var express = require("express");
 var got = require("got");
+var bodyParser = require("body-parser");
 var app = express();
 
 var load_file = require("./lib/load_files");
 var code_snippet = require("./lib/code_snippet");
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use("/public", express.static(__dirname + "/public"));
 
 app.set('view engine', 'ejs');
@@ -59,6 +61,14 @@ app.post("/create_tempfile", function(req, res, next){
 	var file_content = req.body.file_content;
 	load_file.generate_tempfile(file_original_path, file_content)
 	res.json({file_name: file_temp_path})
+})
+app.post("/new_file", function(req, res, next){
+	var folder_path = req.body.foldername;
+	var file_name 	= req.body.filename;
+	var file_path 	= folder_path + "/" + file_name
+	console.log(file_path);
+	var is_file_new = load_file.generate_new_file(file_path)
+	res.json({file_path: file_path, is_file_new: is_file_new})
 })
 
 app.get("/get_code_snippet", function(req, res, next){

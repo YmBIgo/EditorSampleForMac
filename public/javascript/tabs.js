@@ -57,7 +57,7 @@ class Tabs {
 		}
 	}
 	display_tabs(){
-		var tab_length   = 700 / this.tab_array.length;
+		var tab_length   = 650 / this.tab_array.length;
 		var tab_section  = document.getElementById("editor_tabs");
 		var tab_children = tab_section.getElementsByTagName("div");
 		var tab_remove_children = [];
@@ -141,7 +141,7 @@ class Tabs {
 					//
 					e.preventDefault();
 					var x = e.clientX;
-					var x_margin = 700 / tabs.tab_array.length;
+					var x_margin = 650 / tabs.tab_array.length;
 					console.log("mouse moving " + x);
 					this.dragging_tab_html.style.left = x - x_margin/2 + "px";
 				}, false);
@@ -170,7 +170,7 @@ class Tabs {
 		var tab_pos = 505;
 		var current_pos = 0;
 		var is_pos_first = false;
-		var tab_pos_width = 700 / this.tab_array.length;
+		var tab_pos_width = 650 / this.tab_array.length;
 		for(var i = 0; i < this.tab_array.length; i++ ){
 			tab_pos_array.push(tab_pos);
 			if ( pos_x > tab_pos && is_pos_first == false ){
@@ -190,7 +190,7 @@ class Tabs {
 		var tab_pos = 505;
 		var new_pos = 0;
 		var is_pos_first = false;
-		var tab_pos_width = 700 / this.tab_array.length;
+		var tab_pos_width = 650 / this.tab_array.length;
 		for(var i = 0; i < this.tab_array.length; i++ ){
 			tab_pos_array.push(tab_pos);
 			if ( pos_x > tab_pos && is_pos_first == false ){

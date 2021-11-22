@@ -27,6 +27,7 @@
 			</div>
 			<div class="editor_section col-8">
 				<div id="editor_tabs">
+					<span class="editor_tabs_right_button" onclick="show_modal2()">新規ファイル作成</span>
 				</div>
 				<div id="editor_inner">
 					<textarea id="editor-textarea">var editor = "test";</textarea>
@@ -105,6 +106,37 @@ document.getElementById("search-again-word-button").onclick = function(){
 }
 </script>
 	</div>
+	<div class="modal2">
+		<div class="modal-section">
+			<div class="modal-new-file-info">
+			<h3>新規ファイル作成</h3>
+			<br>
+			<p>フォルダパスを入力</p>
+			<select name="foldername" class="form-control" id="new-file-foldername" style="width:70%">
+			</select>
+			<p>ファイル名を入力</p>
+			<input type="text" name="filename" class="form-control" id="new-file-filename" style="width:70%">
+			<br>
+			<button id="new-file-button" class="btn btn-success">登録する</button>
+		</div>
+	</div>
+<script>
+document.getElementById("new-file-button").onclick = function(e){
+	var folder_select  = document.getElementById("new-file-foldername");
+	var selected_index = folder_select.selectedIndex;
+	var folder_path    = folder_select.options[selected_index].value;
+	var file_name 	= document.getElementById("new-file-filename").value;
+	console.log(folder_path, file_name)
+	accessCreateNewFile(folder_path, file_name);
+	hide_modal2();
+}
+document.getElementsByClassName("modal2")[0].addEventListener("click", (e) => {
+	if ( e.target.closest(".modal-section") == null ){
+		hide_modal2();
+	}
+});
+// 
+</script>
 <script>
 	//
 	var tabs = new Tabs([]);
@@ -230,6 +262,16 @@ document.getElementById("search-again-word-button").onclick = function(){
 		}
 		li_element.appendChild(a_element)
 		file_name_area.appendChild(li_element)
+	});
+	var folder_select = document.getElementById("new-file-foldername");
+	all_files.forEach(function(item){
+	  if ( item[1] == 1){
+	    //
+	    var new_file_option = document.createElement("option");
+	    new_file_option.value = item[2]
+	    new_file_option.innerText = item[2]
+	    folder_select.append(new_file_option)
+	  }
 	});
 </script>
 <script>
